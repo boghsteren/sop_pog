@@ -4,7 +4,7 @@ import { Card, Header, Segment } from "semantic-ui-react";
 import { ActionCard } from "../atoms/ActionCard";
 
 export const CardsPage = () => {
-  const { cp_cards, ap_cards } = useSelector((state) => state);
+  const { cp_cards, ap_cards } = useSelector((state) => state.current_game);
   return (
     <Segment
       style={{

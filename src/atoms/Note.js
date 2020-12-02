@@ -1,6 +1,7 @@
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Comment } from "antd";
 import dayjs from "dayjs";
 import React from "react";
-import { Feed, Icon } from "semantic-ui-react";
 
 export const Note = ({
   noteText,
@@ -10,19 +11,15 @@ export const Note = ({
   cp_active,
 }) => {
   return (
-    <Feed.Event>
-      <Feed.Label>
-        <Icon name="sticky note outline" color="grey" />
-      </Feed.Label>
-      <Feed.Content>
-        <Feed.Date>{dayjs(timestamp).format("DD-MM-YYYY hh:mm")}</Feed.Date>
-        <Feed.Summary>
-          Turn: {turn}, round: {action_round}, side: {cp_active ? "CP" : "AP"}
-        </Feed.Summary>
-        <Feed.Extra text style={{ wordBreak: "break-word" }}>
-          {noteText}
-        </Feed.Extra>
-      </Feed.Content>
-    </Feed.Event>
+    <Comment
+      content={noteText}
+      author={`Turn ${turn}, Round ${action_round}, ${
+        cp_active ? "CP Turn" : "AP Turn"
+      }`}
+      datetime={dayjs(timestamp).format("DD-MM-YYYY hh:mm")}
+      avatar={
+        <InfoCircleOutlined style={{ fontSize: "16px" }}></InfoCircleOutlined>
+      }
+    ></Comment>
   );
 };

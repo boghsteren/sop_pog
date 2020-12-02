@@ -1,32 +1,23 @@
+import { Space } from "antd";
+import Title from "antd/lib/typography/Title";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Header, Segment } from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 import { Counter } from "../atoms/Counter";
 import { Metric } from "../atoms/Metric";
 
 export const WarStatusSection = () => {
-  const { cp_warstatus, ap_warstatus } = useSelector((state) => state);
+  const { cp_warstatus, ap_warstatus } = useSelector(
+    (state) => state.current_game
+  );
   const combined_war_status = cp_warstatus + ap_warstatus;
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        width: "100%",
-      }}
-    >
-      <Header style={{ margin: "20px" }} textAlign="center" as="h2">
-        WAR STATUS
-      </Header>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-        }}
-      >
+    <div>
+      <Title level={3}>WARSTATUS</Title>
+      <Space wrap>
         <Counter
           type="cp_warstatus"
-          title="CP War Status"
+          title="CP"
           min={0}
           max={20}
           status_label={(current_value) => {
@@ -44,7 +35,7 @@ export const WarStatusSection = () => {
         <Counter
           type="ap_warstatus"
           min={0}
-          title="AP War Status"
+          title="AP"
           max={20}
           status_label={(current_value) => {
             return (
@@ -59,19 +50,13 @@ export const WarStatusSection = () => {
           }}
         ></Counter>
         <Metric
-          title="Combined War Status"
+          title="Combined"
           current_value={combined_war_status}
-          status_label={(current_value) => {
-            return (
-              <Header as="h5">
-                {current_value < 30
-                  ? "Zimmermann Telegram NOT allowed"
-                  : "Zimmermann Telegram allowed"}
-              </Header>
-            );
+          status_label={() => {
+            return null;
           }}
         ></Metric>
-      </div>
+      </Space>
     </div>
   );
 };

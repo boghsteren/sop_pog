@@ -1,44 +1,41 @@
-import React from "react";
-import { Button, Divider } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Row, Col, Divider, Empty, Button } from "antd";
 import { NotesSection } from "../components/NotesSection";
 import { RulesSection } from "../components/RulesSection";
 import { ScoreSection } from "../components/ScoreSection";
 import TurnSection from "../components/TurnSection";
 import { WarStatusSection } from "../components/WarStatusSection";
-import { createGame } from "../actions/games";
+import { useSelector } from "react-redux";
+import { GameForm } from "../components/GameForm";
+import { useMediaQuery } from "react-responsive";
 
 export const StatusPage = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        flexWrap: "wrap",
-        padding: "20px",
-      }}
-    >
-      <div style={{ flexGrow: 4, marginTop: "14px", maxWidth: "1100px" }}>
-        <Button onClick={() => createGame({ game_name: "TEST" })}>
-          New Game
-        </Button>
+  const [modalOpen, changeModalOpen] = useState(false);
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const { user_games } = useSelector((state) => state);
+  return user_games.length > 0 ? (
+    <Row gutter={8} wrap>
+      <Col span={isTabletOrMobile ? 24 : 10}>
         <TurnSection></TurnSection>
         <Divider></Divider>
         <WarStatusSection></WarStatusSection>
         <Divider></Divider>
-
         <ScoreSection></ScoreSection>
-      </div>
-      <div
-        className="notebox"
-        style={{
-          flexGrow: 1,
-          width: "600px",
-        }}
-      >
+      </Col>
+      <Col span={isTabletOrMobile ? 24 : 14}>
+        {isTabletOrMobile && <Divider></Divider>}
         <RulesSection></RulesSection>
-
+        <Divider></Divider>
         <NotesSection></NotesSection>
-      </div>
-    </div>
+      </Col>
+    </Row>
+  ) : (
+    <Empty description="You have no active games!">
+      <Button onClick={() => changeModalOpen(true)}>Create new game</Button>
+      <GameForm
+        changeModalOpen={changeModalOpen}
+        modalOpen={modalOpen}
+      ></GameForm>
+    </Empty>
   );
 };

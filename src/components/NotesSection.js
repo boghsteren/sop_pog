@@ -1,15 +1,15 @@
+import { Button, Card, Input, Space } from "antd";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Feed, Form, Header, Segment } from "semantic-ui-react";
+import { useSelector } from "react-redux";
+import { updateGame } from "../actions/games";
 import { Note } from "../atoms/Note";
 
 export const NotesSection = () => {
   const { notes, turn, action_round, cp_active } = useSelector(
-    (state) => state
+    (state) => state.current_game
   );
   const [noteText, updateNote] = useState("");
-  const dispatch = useDispatch();
   const createNote = (e) => {
     e.preventDefault();
     const newNote = {
@@ -19,38 +19,21 @@ export const NotesSection = () => {
       cp_active,
       timestamp: dayjs(),
     };
-    dispatch({ type: "ADD_NOTES", item: newNote });
+    updateGame({ update: { notes: [...notes, newNote] } });
     updateNote("");
   };
   return (
-    <Segment
-      basic
-      elevation={0}
-      style={{
-        backgroundColor: "white",
-        padding: "20px",
-      }}
-    >
-      <Header as="h2">NOTES</Header>
-      <Feed style={{ margin: "0px" }}>
-        {notes.map((note) => (
+    <Space direction="vertical" style={{ width: "100%" }}>
+      <Card title="Notes">
+        {notes?.map((note) => (
           <Note key={note.noteText} {...note}></Note>
         ))}
-      </Feed>
-      <Form style={{ margin: "20px" }}>
-        <Form.TextArea
-          value={noteText}
-          onChange={(e, { value }) => updateNote(value)}
-        />
-        <Button
-          type="submit"
-          floated="right"
-          onClick={createNote}
-          content="Add note"
-          labelPosition="left"
-          icon="edit"
-        />
-      </Form>
-    </Segment>
+      </Card>
+      <Input.TextArea
+        value={noteText}
+        onChange={(e) => updateNote(e.target.value)}
+      />
+      <Button onClick={createNote}>Create note</Button>
+    </Space>
   );
 };

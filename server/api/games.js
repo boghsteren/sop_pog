@@ -7,8 +7,8 @@ router.get("/my_games", async (req, res) => {
   let doc;
   try {
     const res = await Game.find({ game_users: req.user.sub });
-    doc = res.map(({ _id, game_name }) => {
-      return { _id, game_name };
+    doc = res.map(({ _id, game_name, updatedAt }) => {
+      return { _id, game_name, updatedAt };
     });
   } catch (err) {
     throw err;
@@ -29,6 +29,7 @@ router.post("/game", async (req, res) => {
     turn: 1,
     action_round: 1,
     cp_active: true,
+    notes: [],
   });
   try {
     doc = await newItem.save();
@@ -39,9 +40,21 @@ router.post("/game", async (req, res) => {
 });
 
 router.get("/game/:game", async (req, res) => {
+  console.log("hit");
   let doc;
   try {
     doc = await Game.findById(req.params.game);
+  } catch (err) {
+    throw err;
+  }
+  res.send(doc);
+});
+
+router.put("/game/:game", async (req, res) => {
+  let doc;
+  const update = req.body;
+  try {
+    doc = await Game.findByIdAndUpdate(req.params.game, update, { new: true });
   } catch (err) {
     throw err;
   }

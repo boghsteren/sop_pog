@@ -1,61 +1,31 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useHistory } from "react-router-dom";
-import { Header, Icon, Menu, Sidebar } from "semantic-ui-react";
+import { useHistory, useLocation } from "react-router-dom";
+import { Menu } from "antd";
 
-export const SidebarMenu = ({ setMenuOpen, menuOpen }) => {
+export const SidebarMenu = () => {
   let history = useHistory();
-  const { logout, isAuthenticated, loginWithRedirect } = useAuth0();
+  const { pathname } = useLocation();
   return (
-    <Sidebar
-      as={Menu}
-      animation="overlay"
-      icon="labeled"
-      onHide={() => setMenuOpen(false)}
-      vertical
-      visible={menuOpen}
-      width="thin"
-    >
-      {isAuthenticated && (
-        <Menu.Item as="a" onClick={() => history.push("/")}>
-          <Header style={{ display: "flex", justifyContent: "space-between" }}>
-            Status
-            <Icon name="balance scale" size="mini" />
-          </Header>
-        </Menu.Item>
-      )}
-      {isAuthenticated && (
-        <Menu.Item as="a" onClick={() => history.push("/cards")}>
-          <Header style={{ display: "flex", justifyContent: "space-between" }}>
-            Cards
-            <Icon name="id card outline" size="mini" />
-          </Header>
-        </Menu.Item>
-      )}
-      {isAuthenticated && (
-        <Menu.Item as="a" onClick={() => history.push("/armies")}>
-          <Header style={{ display: "flex", justifyContent: "space-between" }}>
-            Armies
-            <Icon name="users" size="mini" />
-          </Header>
-        </Menu.Item>
-      )}
-      {isAuthenticated && (
-        <Menu.Item as="a" onClick={logout}>
-          <Header style={{ display: "flex", justifyContent: "space-between" }}>
-            Log out
-            <Icon name="sign-out" size="mini" />
-          </Header>
-        </Menu.Item>
-      )}
-      {!isAuthenticated && (
-        <Menu.Item as="a" onClick={loginWithRedirect}>
-          <Header style={{ display: "flex", justifyContent: "space-between" }}>
-            Log in
-            <Icon name="sign-in" size="mini" />
-          </Header>
-        </Menu.Item>
-      )}
-    </Sidebar>
+    <Menu theme="dark" mode="inline">
+      {console.log(pathname)}
+      <Menu.Item
+        isSelected={pathname === "/"}
+        onClick={() => history.push("/")}
+      >
+        Game
+      </Menu.Item>
+      <Menu.Item
+        isSelected={pathname === "/cards"}
+        onClick={() => history.push("/cards")}
+      >
+        Cards
+      </Menu.Item>
+      <Menu.Item
+        isSelected={pathname === "/armies"}
+        onClick={() => history.push("/armies")}
+      >
+        Armies
+      </Menu.Item>
+    </Menu>
   );
 };

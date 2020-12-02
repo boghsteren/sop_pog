@@ -4,10 +4,12 @@
   "proxy": "http://localhost:5000",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.3.0",
     "@auth0/auth0-react": "^1.1.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
+    "antd": "^4.9.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dayjs": "^1.9.5",
@@ -21,6 +23,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
+    "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "redux": "^4.0.5",
@@ -31,6 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "serve": "nodemon ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

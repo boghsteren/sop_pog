@@ -17,30 +17,47 @@ const cardModel = {
   deck: String,
 };
 
-var Game = mongoose.model("Game", {
-  game_name: { type: String },
-  game_users: [{ type: String }],
-  cp_cards: [cardModel],
-  ap_cards: [cardModel],
-  cp_warstatus: {
-    type: Number,
+const noteModel = {
+  noteText: String,
+  turn: Number,
+  action_round: Number,
+  cp_active: Boolean,
+  timestamp: String,
+};
+
+var GameSchema = mongoose.Schema(
+  {
+    game_name: { type: String },
+    game_users: [{ type: String }],
+    cp_cards: [cardModel],
+    ap_cards: [cardModel],
+    cp_warstatus: {
+      type: Number,
+    },
+    ap_warstatus: {
+      type: Number,
+    },
+    score: {
+      type: Number,
+    },
+    russia_cp_vps: {
+      type: Number,
+    },
+    turn: {
+      type: Number,
+    },
+    action_round: {
+      type: Number,
+    },
+    cp_active: {
+      type: Boolean,
+    },
+    notes: [noteModel],
   },
-  ap_warstatus: {
-    type: Number,
-  },
-  score: {
-    type: Number,
-  },
-  turn: {
-    type: Number,
-  },
-  action_round: {
-    type: Number,
-  },
-  cp_active: {
-    type: Boolean,
-  },
-});
+  { timestamps: true }
+);
+
+var Game = mongoose.model("Game", GameSchema);
 
 module.exports = {
   Game,

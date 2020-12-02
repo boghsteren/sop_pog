@@ -1,8 +1,0 @@
-.notebox {
-  margin-top: 14px;
-}
-@media screen and (min-width: 992px) {
-  .notebox {
-    margin-left: 14px;
-  }
-}

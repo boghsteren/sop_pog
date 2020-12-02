@@ -1,49 +1,55 @@
 import { useEffect, useState } from "react";
-import "semantic-ui-css/semantic.min.css";
-import "./App.css";
-import { Container, Segment, Sidebar } from "semantic-ui-react";
-import { SidebarMenu } from "./components/SidebarMenu";
-import { TopBar } from "./components/TopBar";
+import "antd/dist/antd.css";
 import { Router } from "./Router";
 import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getGame, getMyGames } from "./actions/games";
+import Layout, { Content, Footer, Header } from "antd/lib/layout/layout";
+import { TopBar } from "./components/TopBar";
+import { Spin } from "antd";
 
 function App() {
   const dispatch = useDispatch();
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [dataLoading, setLoading] = useState(false);
+  const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
   useEffect(() => {
     let token;
     const getToken = async () => {
       try {
+        setLoading(true);
         token = await getAccessTokenSilently();
         dispatch({ type: "UPDATE_ACCESS_TOKEN", update: token });
-        getGame({ game_id: "5fbeb6fbaedfdac4bbf7e2f6" });
-        getMyGames();
+        const myGames = await getMyGames();
+        myGames.length > 0 && (await getGame({ game_id: myGames[0]._id }));
+        isAuthenticated && setLoading(false);
       } catch (e) {
         console.error(e);
       }
     };
     isAuthenticated && getToken();
   }, [isAuthenticated, getAccessTokenSilently, dispatch]);
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  return (
-    <div>
-      <Sidebar.Pushable as={Segment}>
-        <SidebarMenu
-          setMenuOpen={setMenuOpen}
-          menuOpen={menuOpen}
-        ></SidebarMenu>
-        <Sidebar.Pusher dimmed={menuOpen} as="div">
-          <TopBar setMenuOpen={setMenuOpen}></TopBar>
-          <Container fluid>
-            <Router></Router>
-          </Container>
-        </Sidebar.Pusher>
-      </Sidebar.Pushable>
+  return dataLoading || isLoading ? (
+    <div
+      style={{
+        height: "100vh",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Spin size="large"></Spin>
     </div>
+  ) : (
+    <Layout>
+      <Header>
+        <TopBar></TopBar>
+      </Header>
+      <Content style={{ padding: "36px" }}>
+        <Router></Router>
+      </Content>
+      <Footer></Footer>
+    </Layout>
   );
 }
 

@@ -1,35 +1,27 @@
+import { SwapOutlined } from "@ant-design/icons";
+import { Button, Card } from "antd";
+import Title from "antd/lib/typography/Title";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Icon, Segment, Statistic } from "semantic-ui-react";
+import { useSelector } from "react-redux";
+import { updateGame } from "../actions/games";
 
 export const SideSelector = () => {
-  const { cp_active } = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const updateValue = () =>
-    dispatch({ type: `UPDATE_CP_ACTIVE`, update: !cp_active });
+  const { cp_active } = useSelector((state) => state.current_game);
+  const updateValue = () => updateGame({ update: { cp_active: !cp_active } });
   return (
-    <Segment
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "150px",
-        flex: "1 0 auto",
-        alignItems: "center",
-        margin: "10px",
-      }}
+    <Card
+      title="Active side"
+      style={{ minWidth: 200 }}
+      extra={
+        <Button
+          size="small"
+          shape="circle"
+          onClick={updateValue}
+          icon={<SwapOutlined />}
+        ></Button>
+      }
     >
-      <div>
-        <Statistic>
-          <Statistic.Label>Active Side</Statistic.Label>
-
-          <Statistic.Value text>{cp_active ? "AP" : "CP"}</Statistic.Value>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button circular onClick={() => updateValue()} icon>
-              <Icon name="refresh"></Icon>
-            </Button>
-          </div>
-        </Statistic>
-      </div>
-    </Segment>
+      <Title style={{ textAlign: "center" }}>{cp_active ? "AP" : "CP"}</Title>
+    </Card>
   );
 };

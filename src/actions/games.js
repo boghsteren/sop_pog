@@ -23,7 +23,8 @@ export const createGame = async ({ game_name }) => {
   } catch (e) {
     console.log(e);
   }
-  return res;
+  store.dispatch({ type: "ADD_USER_GAMES", item: res.data });
+  return res.data;
 };
 
 export const getMyGames = async () => {
@@ -38,6 +39,7 @@ export const getMyGames = async () => {
   } catch (e) {
     console.error(e);
   }
+  return res.data;
 };
 
 export const getGame = async ({ game_id }) => {
@@ -45,39 +47,23 @@ export const getGame = async ({ game_id }) => {
   const { access_token } = store.getState();
   try {
     res = await Axios.get(`/api/game/${game_id}`, createHeader(access_token));
-    const {
-      cp_cards,
-      ap_cards,
-      score,
-      turn,
-      action_round,
-      ap_warstatus,
-      cp_warstatus,
-      cp_active,
-    } = res.data;
-    const game_states = [
-      { status: "score", update: score },
-      { status: "turn", update: turn },
-      { status: "action_round", update: action_round },
-      { status: "cp_warstatus", update: cp_warstatus },
-      { status: "ap_warstatus", update: ap_warstatus },
-      { status: "cp_active", update: cp_active },
-    ];
-    store.dispatch({
-      type: `SET_AP_CARDS`,
-      items: ap_cards,
-    });
-    store.dispatch({
-      type: `SET_CP_CARDS`,
-      items: cp_cards,
-    });
-    game_states.forEach((item) =>
-      store.dispatch({
-        type: `UPDATE_${item.status.toUpperCase()}`,
-        update: item.update,
-      })
-    );
   } catch (e) {
     console.error(e);
   }
+  store.dispatch({ type: "SET_CURRENT_GAME", update: res.data });
+};
+
+export const updateGame = async ({ update }) => {
+  let res;
+  const { access_token, current_game } = store.getState();
+  try {
+    res = await Axios.put(
+      `/api/game/${current_game._id}`,
+      update,
+      createHeader(access_token)
+    );
+  } catch (e) {
+    console.log(e);
+  }
+  store.dispatch({ type: "UPDATE_CURRENT_GAME", update: res.data });
 };

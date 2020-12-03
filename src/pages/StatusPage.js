@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Divider, Empty, Button } from "antd";
+import { Row, Col, Divider, Empty, Button, Tooltip } from "antd";
 import { NotesSection } from "../components/NotesSection";
 import { RulesSection } from "../components/RulesSection";
 import { ScoreSection } from "../components/ScoreSection";
@@ -30,8 +30,15 @@ export const StatusPage = () => {
       </Col>
     </Row>
   ) : (
-    <Empty description="You have no active games!">
-      <Button onClick={() => changeModalOpen(true)}>Create new game</Button>
+    <Empty
+      style={{ height: "90vh", paddingTop: "200px" }}
+      description="You have no active games!"
+    >
+      <Tooltip title="Add new game">
+        <Button type="primary" onClick={() => changeModalOpen(true)}>
+          Let's play
+        </Button>
+      </Tooltip>
       <GameForm
         changeModalOpen={changeModalOpen}
         modalOpen={modalOpen}

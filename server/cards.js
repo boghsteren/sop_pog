@@ -14,7 +14,7 @@ const cp_cards = [
     title: "Guns of August",
     text:
       "May only be played in the first Action Round of the August 1914 turn. The Liege fort is destroyed. Place the GE 1st and 2nd Armies in the Liege space. The GE 1st, 2nd, and 3rd Armies are activated for Combat.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -29,7 +29,7 @@ const cp_cards = [
     title: "Wireless Intercepts",
     text:
       "A GE Flank Attack Attempt vs. a space containing only RU units is automatically successful.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -42,7 +42,7 @@ const cp_cards = [
     rep_ge: "1",
     title: "Von Francois",
     text: "A GE attack vs. RU units adds a +1 drm.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -56,7 +56,7 @@ const cp_cards = [
     title: "Severe Weather",
     text:
       "Defending units in a mountain space in Fall/Winter or a swamp space in Spring/Fall get a +2 drm.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -70,7 +70,7 @@ const cp_cards = [
     title: "Landwehr",
     text:
       "CP player receives 2 extra RPs to immediately flip reduced strength units to their full side. They may not be spent to replace eliminated units.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -86,7 +86,7 @@ const cp_cards = [
     title: "Entrench",
     text:
       "Place a Level 1 Trench in any space occupied by a supplied friendly Army. Both players may now Entrench.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -101,7 +101,7 @@ const cp_cards = [
     rep_tu: "1",
     title: "German Reinforcements",
     text: "9th Army.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -116,7 +116,7 @@ const cp_cards = [
     rep_tu: "1",
     title: "Race to the Sea",
     text: "CP units may now end movement in Ostend, Calais, and Amiens.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -134,7 +134,7 @@ const cp_cards = [
     title: "Reichstag Truce",
     text:
       "May not be played after CP War Commitment Level is Total War. Add 1 VP.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -150,7 +150,7 @@ const cp_cards = [
     title: "SUD Army",
     text:
       "Up to 2 GE corps may stack with any 1 AH unit and be Activated as a single nationality. A different stack may be chosen each Action Round.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -165,7 +165,7 @@ const cp_cards = [
     title: "Oberost",
     text:
       "German units may now attack spaces containing RU forts. (They may always besiege such spaces.)",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -181,7 +181,7 @@ const cp_cards = [
     rep_tu: "1",
     title: "German Reinforcements",
     text: "10th Army, 2 corps.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -199,7 +199,7 @@ const cp_cards = [
     title: "Falkenhayn",
     text:
       ' May only be played on Aug/Sep 1914 turns only after the"Moltke"is played or without restriction beginning in Fall 1914. Cancels the effects of"Moltke". Allows play of"Place of Execution"',
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -215,7 +215,7 @@ const cp_cards = [
     rep_tu: "1",
     title: "Austria",
     text: "Hungary Reinforcements  7th Army, 2 corps.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -230,7 +230,7 @@ const cp_cards = [
     title: "Withdrawal",
     text:
       "Defending units negate one required Corps step loss and instead retreat 1 space. This also cancels any retreat caused by losing the combat. If no Corps step(s) lost, an Army step loss may be negated.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "mobilization",
@@ -246,7 +246,7 @@ const cp_cards = [
     rep_tu: "1",
     title: "Kaisertreu",
     text: "An AH attack or defence adds +1drm.",
-    deck: "box",
+    deck: "draw",
   },
   {
     stage: "limited_war",
@@ -939,9 +939,9 @@ const cp_cards = [
     rep_bu: "1",
     rep_ge: "4",
     rep_tu: "2",
-    title: "H",
+    title: "HL Take Command",
     text:
-      'L Take Command  Allows play of"Michel","Blucher","Peace Offensive","Hoffman", and"UBoats Unleashed". Prevents play of"Place of Execution".',
+      'Allows play of"Michel","Blucher","Peace Offensive","Hoffman", and"UBoats Unleashed". Prevents play of"Place of Execution".',
     deck: "box",
   },
   {

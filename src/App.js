@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "antd/dist/antd.css";
+import "./App.css";
 import { Router } from "./Router";
 import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";

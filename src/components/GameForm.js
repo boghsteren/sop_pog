@@ -1,4 +1,4 @@
-import { Input, Checkbox, Divider, notification } from "antd";
+import { Input, Checkbox, Divider } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useState } from "react";
 import { createGame } from "../actions/games";
@@ -6,15 +6,8 @@ import { createGame } from "../actions/games";
 export const GameForm = ({ changeModalOpen, modalOpen }) => {
   const [game_name, setGameName] = useState("");
   const createNewGame = async () => {
-    const newGame = await createGame({ game_name });
+    await createGame({ game_name });
     changeModalOpen(false);
-    notification.open({
-      message: "New game created",
-      description: `${newGame.game_name} was created.`,
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
   };
   return (
     <Modal

@@ -61,4 +61,14 @@ router.put("/game/:game", async (req, res) => {
   res.send(doc);
 });
 
+router.delete("/game/:game", async (req, res) => {
+  let doc;
+  try {
+    doc = await Game.findByIdAndDelete(req.params.game);
+  } catch (err) {
+    throw err;
+  }
+  res.send(doc);
+});
+
 module.exports = router;

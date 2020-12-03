@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import Axios from "axios";
 import { store } from "../index";
 
@@ -24,6 +25,11 @@ export const createGame = async ({ game_name }) => {
     console.log(e);
   }
   store.dispatch({ type: "ADD_USER_GAMES", item: res.data });
+  getGame({ game_id: res.data._id });
+  notification.open({
+    message: "Game created",
+    description: `You created ${res.data.game_name}. Enjoy!`,
+  });
   return res.data;
 };
 
@@ -66,4 +72,42 @@ export const updateGame = async ({ update }) => {
     console.log(e);
   }
   store.dispatch({ type: "UPDATE_CURRENT_GAME", update: res.data });
+  return res.data;
+};
+
+export const updateCards = async ({ newCards, side }) => {
+  const cards = store.getState().current_game[`${side}_cards`];
+  const updated_cards = [
+    ...cards.filter(
+      (item) => !newCards.map((card) => card._id).includes(item._id)
+    ),
+    ...newCards,
+  ];
+  const res = await updateGame({
+    update: { [`${side}_cards`]: updated_cards },
+  });
+  return res;
+};
+
+export const deleteGame = async () => {
+  let res;
+  const { access_token, current_game } = store.getState();
+  try {
+    res = await Axios.delete(
+      `/api/game/${current_game._id}`,
+      createHeader(access_token)
+    );
+  } catch (e) {
+    console.log(e);
+  }
+  store.dispatch({ type: "REMOVE_USER_GAMES", item: res.data });
+  notification.open({
+    message: "Game removed",
+    description: `You deleted "${res.data.game_name}" permanently.`,
+  });
+  const { user_games } = store.getState();
+  user_games.length > 0
+    ? getGame({ game_id: user_games[0]._id })
+    : store.dispatch({ type: "SET_CURRENT_GAME", update: {} });
+  return res.data;
 };

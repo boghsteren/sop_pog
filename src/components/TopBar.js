@@ -1,20 +1,33 @@
 import {
-  LoginOutlined,
+  DeleteOutlined,
   LogoutOutlined,
   PlusOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Col, Popover, Row, Select, Space, Tooltip } from "antd";
+import {
+  Button,
+  Col,
+  Popconfirm,
+  Popover,
+  Row,
+  Select,
+  Space,
+  Tooltip,
+} from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import Title from "antd/lib/typography/Title";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { getGame } from "../actions/games";
+import { deleteGame, getGame } from "../actions/games";
 import { useMediaQuery } from "react-responsive";
+import { GameForm } from "./GameForm";
+import { useHistory } from "react-router-dom";
 
 export const TopBar = () => {
   const { user_games, current_game } = useSelector((state) => state);
+  const [modalOpen, changeModalOpen] = useState(false);
+  const history = useHistory();
   const { isAuthenticated, logout, user } = useAuth0();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const options = user_games.map(({ _id, game_name }) => {
@@ -32,22 +45,50 @@ export const TopBar = () => {
           </Title>
           {options.length > 1 && (
             <Select
-              style={{ width: 150 }}
+              style={{ width: 120 }}
               value={current_game._id}
               onChange={handleChange}
               options={options}
               key={1}
             ></Select>
           )}
+          {isAuthenticated && current_game._id && (
+            <Tooltip title={`Delete ${current_game.game_name}`}>
+              <Popconfirm
+                title={`Delete ${current_game.game_name}?`}
+                onConfirm={() => {
+                  deleteGame();
+                  history.push("/");
+                }}
+                okText="Delete"
+                cancelText="Cancel"
+                okButtonProps={{ type: "danger" }}
+                icon={
+                  <DeleteOutlined style={{ color: "grey" }}></DeleteOutlined>
+                }
+              >
+                <Button
+                  shape="circle"
+                  danger
+                  icon={<DeleteOutlined size=""></DeleteOutlined>}
+                ></Button>
+              </Popconfirm>
+            </Tooltip>
+          )}
           {isAuthenticated && (
             <Tooltip title="Add new game">
               <Button
+                onClick={() => changeModalOpen(true)}
                 shape="circle"
                 type="primary"
                 icon={<PlusOutlined size=""></PlusOutlined>}
               ></Button>
             </Tooltip>
           )}
+          <GameForm
+            changeModalOpen={changeModalOpen}
+            modalOpen={modalOpen}
+          ></GameForm>
         </Space>
       </Col>
       <Col>
